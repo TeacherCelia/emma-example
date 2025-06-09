@@ -13,16 +13,68 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Emmatestandroid"
         tools:targetApi="31">
+
+        <!-- Main Activity-->
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="Emmatestandroid"
-            android:theme="@style/Theme.Emmatestandroid">
+            android:theme="@style/Theme.Emmatestandroid"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <!-- DeepLinkActivity -->
+        <activity
+            android:name="io.emma.android.activities.EMMADeepLinkActivity"
+            android:noHistory="true"
+            android:exported="true"
+            android:theme="@android:style/Theme.NoDisplay">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data android:scheme="emmaapptest"/>
+            </intent-filter>
+
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data
+                    android:host="subdomain.powlink.io"
+                    android:scheme="https"/>
+
+                <data
+                    android:host="shortsubdomain.pwlnk.io"
+                    android:scheme="https"/>
+
+            </intent-filter>
+        </activity>
+
+        <!-- servicio de integración de FCM -->
+        <service
+            android:name="io.emma.android.push.EMMAFcmMessagingService"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
+
+
+        <meta-data
+            android:name="io.emma.DEEPLINK_OPEN_ACTIVITY"
+            android:value="com.example.emma_test_android.MainActivity"/>
     </application>
 
 </manifest>
