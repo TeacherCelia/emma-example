@@ -11,7 +11,7 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- constraint layout para texto izq + dch -->
+        <!-- DEEPLINK -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,6 +50,7 @@
             android:text="Recieved deeplink will be displayed here."
             android:textSize="16sp" />
 
+        <!-- SESSION -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -93,6 +94,7 @@
             android:layout_height="wrap_content"
             android:text="START SESSION" />
 
+        <!-- NOTIFICATION PERMISSION -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -110,15 +112,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
 
-            <TextView
-                android:id="@+id/txt_dch_NotificationPermission"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Disabled"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -143,6 +137,7 @@
             android:layout_height="wrap_content"
             android:text="REQUEST NOTIFICATIONS PERMISSION" />
 
+        <!-- REGISTER USER -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -178,6 +173,7 @@
             android:layout_height="wrap_content"
             android:text="REGISTER USER" />
 
+        <!-- LOGIN USER -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -213,6 +209,7 @@
             android:layout_height="wrap_content"
             android:text="LOG IN USER" />
 
+        <!-- EVENTS AND EXTRAS -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -266,6 +263,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <!-- IN-APP COMMUNICATION -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -351,6 +349,7 @@
             android:layout_height="wrap_content"
             android:text="SHOW NATIVE AD" />
 
+        <!-- ORDERS AND PRODUCTS -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -439,6 +438,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <!-- LANGUAGE -->
         <TextView
             android:id="@+id/txt_t_Language"
             android:layout_width="wrap_content"
@@ -473,6 +473,86 @@
             android:layout_height="wrap_content"
             android:text="SET LANGUAGE" />
 
+
+        <!-- OTHER EMMA METHODS -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp">
+
+            <TextView
+                android:id="@+id/txt_t_OtherEMMAMethods"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="Other EMMA Methods"
+                android:textColor="#000000"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/txt_OtherEMMAMethods"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="Call other EMMA methods here."
+            android:textSize="16sp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btn_getUserInfo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="getUserInfo()"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btn_getUserID"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/btn_getUserID"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="getuserid()"
+                app:layout_constraintStart_toEndOf="@id/btn_getUserInfo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btn_getInstallAttributionInfo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="getInstallAttributionInfo"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btn_test"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/btn_test"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="No action yet"
+                app:layout_constraintStart_toEndOf="@id/btn_getInstallAttributionInfo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- LEARN MORE -->
         <TextView
             android:id="@+id/txt_t_LearnMore"
             android:layout_width="wrap_content"

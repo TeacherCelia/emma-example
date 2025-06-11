@@ -4,6 +4,7 @@
     package="com.example.emma_test_android">
 
     <application
+        android:name=".ApplicationTest"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -40,7 +41,8 @@
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
 
-                <data android:scheme="emmaapptest"/>
+                <data android:scheme="emmascheme"
+                    android:host="emmahost"/>
             </intent-filter>
 
             <intent-filter android:autoVerify="true">
@@ -71,10 +73,10 @@
         </service>
 
 
-
+        <!-- metadato que especifica la actividad encargada del powlink -->
         <meta-data
             android:name="io.emma.DEEPLINK_OPEN_ACTIVITY"
-            android:value="com.example.emma_test_android.MainActivity"/>
+            android:value="com.example.emma_test_android.CustomDeepLinkActivity"/>
     </application>
 
 </manifest>
