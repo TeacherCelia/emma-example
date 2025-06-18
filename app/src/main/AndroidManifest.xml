@@ -3,8 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.emma_test_android">
 
+    <!-- permisos para recibir pushes -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <application
-        android:name=".ApplicationTest"
+        android:name=".application.EmmaTestApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -17,7 +21,7 @@
 
         <!-- Main Activity-->
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:exported="true"
             android:label="Emmatestandroid"
             android:theme="@style/Theme.Emmatestandroid"
@@ -37,7 +41,6 @@
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
-
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
 
@@ -52,17 +55,17 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
 
                 <data
-                    android:host="subdomain.powlink.io"
+                    android:host="emmatestcelia.powlink.io"
                     android:scheme="https"/>
 
                 <data
-                    android:host="shortsubdomain.pwlnk.io"
+                    android:host="emtcel.pwlnk.io"
                     android:scheme="https"/>
 
             </intent-filter>
         </activity>
 
-        <!-- servicio de integración de FCM -->
+        <!-- servicio de integración de FCM con EMMA -->
         <service
             android:name="io.emma.android.push.EMMAFcmMessagingService"
             android:enabled="true"
@@ -72,11 +75,24 @@
             </intent-filter>
         </service>
 
+        <!--
+        //servicio personalizado de FCM
+        //(si se quiere un servicio personalizado diferente al de EMMA)
+        <service
+            android:name="com.example.emma_test_android.services.FirebaseServices"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        -->
 
         <!-- metadato que especifica la actividad encargada del powlink -->
         <meta-data
             android:name="io.emma.DEEPLINK_OPEN_ACTIVITY"
             android:value="com.example.emma_test_android.CustomDeepLinkActivity"/>
+
+
     </application>
 
 </manifest>

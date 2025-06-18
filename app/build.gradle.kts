@@ -49,5 +49,8 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation (libs.emma.sdk) // implementacion de EMMA desde libs.versions
-    implementation ("com.google.firebase:firebase-messaging:24.0.1")
+    implementation (libs.firebase.messaging) // firebase dependencies
 }
+
+
+

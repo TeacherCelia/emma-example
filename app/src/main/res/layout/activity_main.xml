@@ -4,6 +4,8 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
+
     <!-- linear layout que contiene todos los componentes -->
     <LinearLayout
         android:layout_width="match_parent"
@@ -537,6 +539,31 @@
                 android:layout_height="wrap_content"
                 android:text="getInstallAttributionInfo"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btn_DeviceID"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/btn_DeviceID"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="getDeviceID()"
+                app:layout_constraintStart_toEndOf="@id/btn_getInstallAttributionInfo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btn_setCustomerId"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="setCustomerId"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/btn_test"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginEnd="8dp"/>
@@ -545,8 +572,8 @@
                 android:id="@+id/btn_test"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="No action yet"
-                app:layout_constraintStart_toEndOf="@id/btn_getInstallAttributionInfo"
+                android:text="-test-"
+                app:layout_constraintStart_toEndOf="@id/btn_setCustomerId"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

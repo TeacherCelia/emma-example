@@ -1,4 +1,4 @@
-package com.example.emma_test_android
+package com.example.emma_test_android.activities
 
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
@@ -15,14 +15,28 @@ import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Spinner
 import androidx.appcompat.app.AlertDialog
-import io.emma.android.model.EMMAEventRequest
-import io.emma.android.interfaces.EMMARequestListener
+import com.example.emma_test_android.R
+import com.example.emma_test_android.application.EmmaTestApplication
+import com.example.emma_test_android.managers.EmmaCallbackManager
+import com.example.emma_test_android.managers.EmmaEventManager
+import io.emma.android.interfaces.EMMANotificationInterface
 import io.emma.android.interfaces.EMMAUserInfoInterface
+import io.emma.android.model.EMMAPushCampaign
 import org.json.JSONObject
 
-class MainActivity : AppCompatActivity(), EMMAUserInfoInterface {
 
-    // --- declaración de componentes ---
+/**
+ * Activity principal de la app.
+ * Gestiona botones, configuracion inicial, etc...
+ */
+
+class MainActivity :
+    AppCompatActivity(),
+    EMMANotificationInterface,
+    EMMAUserInfoInterface{
+
+    // region Variables
+
     //Session
     private lateinit var btnSession: Button
     private lateinit var txtSession: TextView
@@ -59,10 +73,16 @@ class MainActivity : AppCompatActivity(), EMMAUserInfoInterface {
     private lateinit var btnLanguage: Button
 
     //Other EMMA Methods
+    private lateinit var callbackManager: EmmaCallbackManager // clase con las interfaces implementadas
     private lateinit var btnGetUserInfo: Button
     private lateinit var btnGetUserID: Button
     private lateinit var btnGetInstallAttribution: Button
+    private lateinit var btnGetDeviceID: Button
+    private lateinit var btnSetCustomerId: Button
 
+    //endregion
+
+    // region onCreate
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -73,7 +93,7 @@ class MainActivity : AppCompatActivity(), EMMAUserInfoInterface {
         btnSession = findViewById(R.id.btn_startSession)
         txtSession = findViewById(R.id.txt_dch_session)
         btnSession.setOnClickListener{
-            ApplicationManager.startSession(this)
+            EmmaTestApplication.startSession(this)
         }
 
         //--- Notifications permission
@@ -128,7 +148,6 @@ class MainActivity : AppCompatActivity(), EMMAUserInfoInterface {
                     val userId = editTextUser.text.toString()
                     val email = editTextEmail.text.toString()
 
-
                     //EMMALoginUser
                     EMMA.getInstance().loginUser(userId, email)
 
@@ -148,28 +167,11 @@ class MainActivity : AppCompatActivity(), EMMAUserInfoInterface {
         btnAddUserTag = findViewById(R.id.btn_AddUserTagTag)
 
         btnTrackEvent.setOnClickListener{
-            val eventRequest = EMMAEventRequest("4137f3a184bb5de977da43f90546b1f8") // token de evento_prueba
-            //Optional: custom attributes
-            eventRequest.attributes = mapOf("attribute_example" to "attribute_valor")
-            //Optional: request status listener
-            val requestListener = object : EMMARequestListener {
-                override fun onStarted(requestId: String) {
-                    Log.d("EMMA_request", "Request started with id: $requestId")
-                }
-
-                override fun onSuccess(requestId: String, result: Boolean) {
-                    Log.d("EMMA_request", "Request $requestId succeeded: $result")
-                }
-
-                override fun onFailed(requestId: String) {
-                    Log.e("EMMA_request", "Request $requestId failed")
-                }
-            }
-            eventRequest.requestListener = requestListener
-            //Optional: cumtom id for request delegate
-            eventRequest.customId = "customID"
-
-            EMMA.getInstance().trackEvent(eventRequest)
+            EmmaEventManager.trackCustomEvent(
+                "4137f3a184bb5de977da43f90546b1f8", // token de evento_prueba
+                mapOf("attribute_example" to "attribute_valor"),
+                "customID"
+            )
         }
 
         btnAddUserTag.setOnClickListener{
@@ -253,6 +255,10 @@ class MainActivity : AppCompatActivity(), EMMAUserInfoInterface {
         }
 
         //--- Otras comprobaciones
+        callbackManager = EmmaCallbackManager()
+
+        //Para obtener info de la notificación antes de llamar a onPushOpen
+        EMMA.getInstance().getNotificationInfo()
 
         //Para comprobar cuando se abre la app desde la notificación
         EMMA.getInstance().checkForRichPushUrl()
@@ -281,8 +287,41 @@ class MainActivity : AppCompatActivity(), EMMAUserInfoInterface {
             }
         }
 
+        //Para obtener la info del dispositivo
+        btnGetDeviceID = findViewById(R.id.btn_DeviceID)
+        btnGetDeviceID.setOnClickListener{
+            EMMA.getInstance().getDeviceId(callbackManager)
+        }
+
+        //Para introducir un customer ID independientemente del login/registro
+        btnSetCustomerId = findViewById(R.id.btn_setCustomerId)
+        btnSetCustomerId.setOnClickListener{
+            val dialogView = layoutInflater.inflate(R.layout.dialog_oneedittext, null)
+            val editTextUser = dialogView.findViewById<EditText>(R.id.edtxt_customer)
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Set Customer ID")
+                .setView(dialogView)
+                .setPositiveButton("Set") { dialog, _ ->
+                    val customerId = editTextUser.text.toString()
+
+                    //EMMASetCustomerID
+                    EMMA.getInstance().setCustomerId(customerId)
+                    Log.d("EMMA_CustomerID", "Customer ID set as ${customerId}")
+
+                    dialog.dismiss()
+                }
+                .setNegativeButton("Cancel") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .show()
+        }
+
+
     }
 
+    // endregion
+
+    //region onResume
     override fun onResume() {
         super.onResume()
 
@@ -305,20 +344,31 @@ class MainActivity : AppCompatActivity(), EMMAUserInfoInterface {
 
     }
 
+    // endregion
+
+    // region Other functions
+
+    // onNewIntent: verificará si el usuario ha recibido una notificación cuando la app está abierta.
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         EMMA.getInstance().onNewNotification(intent,true)
     }
 
-    //metodos de EMMAUserInfoInterface
+    // EMMANotificationInterface
+    override fun onPushOpen(pushCampaign: EMMAPushCampaign) {
+        Log.d("EMMA_noti", "Notificación recibida")
+    }
+
+    // EMMAUserInfoInterface functions
     override fun OnGetUserInfo(userInfo: JSONObject?) {
         userInfo?.let {
             Log.d("USER_DATA", "User data: $it")
-
         }
     }
 
     override fun OnGetUserID(id: Int) {
         Log.d("USER_ID", "User ID: $id")
     }
+
+    // endregion
 }
