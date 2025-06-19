@@ -1,24 +1,11 @@
 package com.example.emma_test_android.activities
 
-import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.TextView
-import androidx.core.content.ContextCompat
 import io.emma.android.EMMA
-import android.Manifest
 import android.content.Intent
-import android.util.ArrayMap
 import android.util.Log
-import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.Spinner
-import androidx.appcompat.app.AlertDialog
 import com.example.emma_test_android.R
-import com.example.emma_test_android.application.EmmaTestApplication
-import com.example.emma_test_android.managers.EmmaCallbackManager
-import com.example.emma_test_android.managers.EmmaEventManager
 import io.emma.android.interfaces.EMMANotificationInterface
 import io.emma.android.interfaces.EMMAUserInfoInterface
 import io.emma.android.model.EMMAPushCampaign
@@ -40,19 +27,38 @@ class MainActivity :
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Solo si es la primera vez que se carga la actividad (no tras rotación, etc)
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, HomeFragment())
-                .commit()
-        }
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, HomeFragment())
+            .commit()
+
+        // cuando CustomDeepLinkActivity lance MainActivity con putExtra sabrá qué fragment cargar
+        handleNavigationIntent(intent)
+
     }
     // endregion
+
+    // region Otras funciones
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         EMMA.getInstance().onNewNotification(intent, true)
-        // Si quieres notificar al fragment, puedes buscarlo y llamarle a un método
+        handleNavigationIntent(intent)
+
+    }
+
+    // navegacion entre pantallas
+    private fun handleNavigationIntent(intent: Intent?) {
+        val navigateTo = intent?.getStringExtra("navigateTo")
+        if (navigateTo != null) {
+            when (navigateTo) {
+                "home" -> supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, HomeFragment())
+                    .commit()
+                "test" -> supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, FragmentDeepLinkTest())
+                    .commit()
+            }
+        }
     }
 
     //EMMANotificationInterface
@@ -70,4 +76,6 @@ class MainActivity :
     override fun OnGetUserID(id: Int) {
         Log.d("USER_ID", "User ID: $id")
     }
+
+    //endregion
 }

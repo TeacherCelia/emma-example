@@ -32,7 +32,13 @@
             </intent-filter>
         </activity>
 
-        <!-- DeepLinkActivity -->
+        <!-- CustomDeepLinkActivity -->
+        <activity
+            android:name="com.example.emma_test_android.activities.CustomDeepLinkActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Emmatestandroid"/>
+
+        <!-- EMMADeepLinkActivity -->
         <activity
             android:name="io.emma.android.activities.EMMADeepLinkActivity"
             android:noHistory="true"
@@ -41,11 +47,11 @@
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
+
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
-
-                <data android:scheme="emmascheme"
-                    android:host="emmahost"/>
+                <!-- YOUR_DEEPLINK_SCHEME-->
+                <data android:scheme="emmatestandroid"/>
             </intent-filter>
 
             <intent-filter android:autoVerify="true">
@@ -54,6 +60,7 @@
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
 
+                <!-- POWLINK AND PWLNK SUBDOMAINS (preferencias app)-->
                 <data
                     android:host="emmatestcelia.powlink.io"
                     android:scheme="https"/>
@@ -90,7 +97,7 @@
         <!-- metadato que especifica la actividad encargada del powlink -->
         <meta-data
             android:name="io.emma.DEEPLINK_OPEN_ACTIVITY"
-            android:value="com.example.emma_test_android.CustomDeepLinkActivity"/>
+            android:value="com.example.emma_test_android.activities.CustomDeepLinkActivity"/>
 
 
     </application>
