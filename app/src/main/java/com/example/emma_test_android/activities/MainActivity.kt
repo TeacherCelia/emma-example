@@ -6,6 +6,8 @@ import io.emma.android.EMMA
 import android.content.Intent
 import android.util.Log
 import com.example.emma_test_android.R
+import com.example.emma_test_android.fragments.DeepLinkTestFragment
+import com.example.emma_test_android.fragments.HomeFragment
 import io.emma.android.interfaces.EMMANotificationInterface
 import io.emma.android.interfaces.EMMAUserInfoInterface
 import io.emma.android.model.EMMAPushCampaign
@@ -55,7 +57,7 @@ class MainActivity :
                     .replace(R.id.fragment_container, HomeFragment())
                     .commit()
                 "test" -> supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, FragmentDeepLinkTest())
+                    .replace(R.id.fragment_container, DeepLinkTestFragment())
                     .commit()
             }
         }

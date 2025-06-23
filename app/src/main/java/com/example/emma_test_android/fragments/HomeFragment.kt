@@ -1,4 +1,4 @@
-package com.example.emma_test_android.activities
+package com.example.emma_test_android.fragments
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -19,6 +19,7 @@ import com.example.emma_test_android.application.EmmaTestApplication
 import com.example.emma_test_android.managers.EmmaCallbackManager
 import com.example.emma_test_android.managers.EmmaEventManager
 import io.emma.android.EMMA
+import io.emma.android.model.EMMANativeAdRequest
 
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -44,6 +45,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     //Events and extras
     private lateinit var btnTrackEvent: Button
     private lateinit var btnAddUserTag: Button
+
+    //In-App Communication
+    private lateinit var btnShowNativeAd: Button
 
     //Dialog de dos editText
     private lateinit var edtxtUser: EditText
@@ -162,6 +166,20 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             EMMA.getInstance().trackExtraUserInfo(tags)
         }
 
+        //--- In-App Communication
+        btnShowNativeAd = view.findViewById(R.id.btn_ShowNativeAd)
+        btnShowNativeAd.setOnClickListener{
+            /*val nativeAdRequest = EMMANativeAdRequest()
+            nativeAdRequest.templateId = "plantilla-prueba-celia"
+            EMMA.getInstance().getInAppMessage(nativeAdRequest, EmmaCallbackManager)
+
+             */
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, NativeAdsFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+
         //--- Orders and products
         txtInfoOrders = view.findViewById(R.id.txt_dch_OrdersAndProducts)
         btnStartOrder = view.findViewById(R.id.btn_StartOrder)
@@ -235,10 +253,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             EMMA.getInstance().setUserLanguage(languageCode)
         }
 
-        callbackManager = EmmaCallbackManager()
-
         //--- Otras comprobaciones
-        callbackManager = EmmaCallbackManager()
+        callbackManager = EmmaCallbackManager
 
         //Para obtener info de la notificación antes de llamar a onPushOpen
         EMMA.getInstance().getNotificationInfo()
@@ -322,8 +338,5 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             txtNotificationPermission.text = "Permission status: DENIED"
         }
     }
-
-
-
 
 }
