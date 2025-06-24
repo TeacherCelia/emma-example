@@ -12,6 +12,9 @@ import com.google.firebase.messaging.FirebaseMessaging
 import io.emma.android.EMMA
 import io.emma.android.model.EMMAPushOptions
 
+/**
+ * Activity Application que inicializa el SDK de EMMA
+ */
 
 class EmmaTestApplication : Application() {
 

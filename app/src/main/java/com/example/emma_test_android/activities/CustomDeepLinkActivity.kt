@@ -20,8 +20,6 @@ class CustomDeepLinkActivity: Activity(){
 
         //cerrar inmediatamente después de procesar
         finish()
-
-
     }
 
     private fun processDeepLink(uri: Uri) {

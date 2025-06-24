@@ -21,6 +21,9 @@ import com.example.emma_test_android.managers.EmmaEventManager
 import io.emma.android.EMMA
 import io.emma.android.model.EMMANativeAdRequest
 
+/**
+ * Pantalla principal con todos los botones de prueba
+ */
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
 

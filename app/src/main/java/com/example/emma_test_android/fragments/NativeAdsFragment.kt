@@ -19,6 +19,7 @@ import io.emma.android.model.EMMACampaign
 import io.emma.android.model.EMMANativeAd
 import io.emma.android.model.EMMANativeAdRequest
 import androidx.core.net.toUri
+import android.util.Log
 
 class NativeAdsFragment :
     Fragment(R.layout.fragment_native_ads),
@@ -44,8 +45,9 @@ class NativeAdsFragment :
 
         // se pide anuncio desde aquí
         val templateId = "plantilla-prueba-celia"
-        val request = EMMANativeAdRequest().apply { this.templateId = templateId }
-        EMMA.getInstance().getInAppMessage(request, this)
+        val nativeAdRequest = EMMANativeAdRequest().apply { this.templateId = templateId }
+        nativeAdRequest.isBatch = true // batch activado (varios ads con esta plantilla)
+        EMMA.getInstance().getInAppMessage(nativeAdRequest, this)
 
         btnNativeAd.setOnClickListener {
             requireActivity().supportFragmentManager.beginTransaction()
@@ -74,7 +76,7 @@ class NativeAdsFragment :
     // callback cuando EMMA entrega el anuncio
     override fun onReceived(nativeAd: EMMANativeAd) {
         activity?.runOnUiThread { // para que se ejecute desde el hilo principal
-
+            Log.d("EMMA_nativead", "Ejecutando onRecieved")
             currentNativeAd = nativeAd
 
             val content = nativeAd.nativeAdContent
@@ -95,7 +97,33 @@ class NativeAdsFragment :
     }
 
     override fun onBatchReceived(nativeAds: MutableList<EMMANativeAd>) {
-        // opcional
+        activity?.runOnUiThread {
+            Log.d("EMMA_batch", "Anuncios recibidos en batch: ${nativeAds.size}")
+            nativeAds.forEachIndexed { index, ad ->
+                val title = ad.nativeAdContent["Title"]?.fieldValue
+                Log.d("EMMA_batch", "Ad $index: $title")
+            }
+
+
+            if (nativeAds.isNotEmpty()) {
+                val nativeAd = nativeAds.random()  // eleccion de nativead
+                currentNativeAd = nativeAd  // se guarda para clics
+
+                val content = nativeAd.nativeAdContent
+
+                txtNativeAd.text = content["Title"]?.fieldValue
+                txtNativeAdBody.text = content["Body"]?.fieldValue
+                val imageUrl = content["Main picture"]?.fieldValue
+                Glide.with(requireContext())
+                    .load(imageUrl)
+                    .into(imgNativeAd)
+
+                EMMA.getInstance().sendInAppImpression(CommunicationTypes.NATIVE_AD, nativeAd)
+
+                // se envía la apertura
+                EMMA.getInstance().openNativeAd(nativeAd)
+            }
+        }
     }
 
     override fun onShown(campaign: EMMACampaign?) {}

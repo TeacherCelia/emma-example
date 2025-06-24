@@ -6,6 +6,10 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import com.example.emma_test_android.R
 
+/**
+ * Pantalla para probar los deeplinks / powlinks
+ */
+
 class DeepLinkTestFragment : Fragment(R.layout.fragment_deeplink_test) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

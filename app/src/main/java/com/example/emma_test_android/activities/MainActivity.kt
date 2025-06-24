@@ -16,7 +16,7 @@ import org.json.JSONObject
 
 /**
  * Activity principal de la app.
- * Gestiona botones, configuracion inicial, etc...
+ * Gestiona configuracion inicial, etc...
  */
 
 class MainActivity :
