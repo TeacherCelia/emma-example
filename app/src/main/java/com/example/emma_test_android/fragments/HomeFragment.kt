@@ -19,7 +19,8 @@ import com.example.emma_test_android.application.EmmaTestApplication
 import com.example.emma_test_android.managers.EmmaCallbackManager
 import com.example.emma_test_android.managers.EmmaEventManager
 import io.emma.android.EMMA
-import io.emma.android.model.EMMANativeAdRequest
+import io.emma.android.model.EMMACampaign
+import io.emma.android.model.EMMAInAppRequest
 
 /**
  * Pantalla principal con todos los botones de prueba
@@ -51,6 +52,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     //In-App Communication
     private lateinit var btnShowNativeAd: Button
+    private lateinit var btnShowStartView: Button
+    private lateinit var btnShowAdBall: Button
+    private lateinit var btnShowBanner: Button
+    private lateinit var btnShowStrip: Button
+    private lateinit var btnShowCoupons: Button
 
     //Dialog de dos editText
     private lateinit var edtxtUser: EditText
@@ -170,15 +176,51 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
 
         //--- In-App Communication
+        // IMPORTANTE: configurados hasta el 31 de julio de 2025
+
+        // NativeAd
         btnShowNativeAd = view.findViewById(R.id.btn_ShowNativeAd)
         btnShowNativeAd.setOnClickListener{
-            /*val nativeAdRequest = EMMANativeAdRequest()
-            nativeAdRequest.templateId = "plantilla-prueba-celia"
-            EMMA.getInstance().getInAppMessage(nativeAdRequest, EmmaCallbackManager)
-
-             */
+            // se abre fragment dedicado
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, NativeAdsFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+
+        // StartView
+        btnShowStartView = view.findViewById(R.id.btn_ShowStartView)
+        btnShowStartView.setOnClickListener{
+            val startViewRequest = EMMAInAppRequest(EMMACampaign.Type.STARTVIEW)
+            EMMA.getInstance().getInAppMessage(startViewRequest)
+        }
+
+        // AdBall
+        btnShowAdBall = view.findViewById(R.id.btn_ShowAdball)
+        btnShowAdBall.setOnClickListener{
+            val adBallRequest = EMMAInAppRequest(EMMACampaign.Type.ADBALL)
+            EMMA.getInstance().getInAppMessage(adBallRequest)
+        }
+
+        // Banner
+        btnShowBanner = view.findViewById(R.id.btn_ShowBanner)
+        btnShowBanner.setOnClickListener{
+            val bannerRequest = EMMAInAppRequest(EMMACampaign.Type.BANNER)
+            EMMA.getInstance().getInAppMessage(bannerRequest)
+        }
+
+        // Strip
+        btnShowStrip = view.findViewById(R.id.btn_ShowStrip)
+        btnShowStrip.setOnClickListener{
+            val stripRequest = EMMAInAppRequest(EMMACampaign.Type.STRIP)
+            EMMA.getInstance().getInAppMessage(stripRequest)
+        }
+
+        // Coupons
+        btnShowCoupons = view.findViewById(R.id.btn_ShowCoupons)
+        btnShowCoupons.setOnClickListener{
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, CouponsFragment())
                 .addToBackStack(null)
                 .commit()
         }

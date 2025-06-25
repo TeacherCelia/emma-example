@@ -288,7 +288,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:text="Try our in-app communications:"
+            android:text="Try our in-app communications. Active until july 31 (2025):"
             android:textSize="16sp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -343,11 +343,30 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <Button
-            android:id="@+id/btn_ShowNativeAd"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="SHOW NATIVE AD" />
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btn_ShowNativeAd"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="SHOW NATIVE AD"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btn_ShowCoupons"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <Button
+                android:id="@+id/btn_ShowCoupons"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="SHOW COUPONS"
+                app:layout_constraintStart_toEndOf="@id/btn_ShowNativeAd"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="8dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!-- ORDERS AND PRODUCTS -->
         <androidx.constraintlayout.widget.ConstraintLayout
